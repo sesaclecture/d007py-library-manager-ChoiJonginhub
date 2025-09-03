@@ -12,23 +12,35 @@ class LibraryService(BaseService):
       - add_book/remove_book/list_books/find_book 구현
       - 존재하지 않는 책 삭제/검색 시 ValueError 발생
     """
+    library = []
 
     def __init__(self) -> None:
         # TODO: 내부 리스트 초기화
-        pass
+        self.library = []
 
     def add_book(self, book: Book) -> None:
         # TODO: 책 추가
-        raise NotImplementedError
+        self.library.append(
+            {"title": book.title, "author": book.author, "year": book.year})
 
     def remove_book(self, title: str) -> None:
         # TODO: 제목으로 책 삭제 (없으면 ValueError)
-        raise NotImplementedError
+        for book in self.library:
+            if book['title'] == title:
+                self.library.remove(book)
+                return None
+        raise ValueError
 
     def list_books(self) -> Iterable[Book]:
         # TODO: 책 목록 반환 (복사본 반환 권장)
-        raise NotImplementedError
+        lib_list = []
+        for b in self.library:
+            lib_list.append(Book.from_dict(b))
+        return lib_list
 
     def find_book(self, title: str) -> Book:
         # TODO: 제목으로 책 찾기 (없으면 ValueError)
-        raise NotImplementedError
+        for book in self.library:
+            if book['title'] == title:
+                return Book.from_dict(book)
+        raise ValueError
